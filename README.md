@@ -10,6 +10,7 @@ I make several tools on Docker. If you need to other tools, please contact me (h
 ### Integration of genome downloader
 Packages tools of several genome downloader.  
 Here is the packages.  
+- grabseqs: https://github.com/louiejtaylor/grabseqs
 - genome_updater: https://github.com/pirovc/genome_updater
 - pyensembl: https://github.com/openvax/pyensembl
 - genomepy: https://github.com/vanheeringen-lab/genomepy
