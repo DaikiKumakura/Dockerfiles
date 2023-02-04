@@ -36,7 +36,6 @@ RUN set -x && \
 ENV PATH $PATH:/root/anaconda3/bin
 
 # install libraries
-## Not installing: medaka, prokka
 WORKDIR /root
 RUN pip install --upgrade pip && \
 	conda install -y grabseqs -c louiejtaylor -c bioconda -c conda-forge
