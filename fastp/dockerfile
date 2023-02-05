@@ -1,0 +1,8 @@
+# Base image
+FROM debian9-slim-bioconda3:latest
+
+# Installing packages
+RUN conda update conda \
+  && conda install -c bioconda -y fastp \
+  && conda clean --all --yes
+
