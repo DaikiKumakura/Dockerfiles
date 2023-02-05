@@ -1,0 +1,9 @@
+# Base image
+FROM debian9-slim-bioconda3:latest
+
+# Installing packages
+RUN conda update conda \
+  && conda install -c bioconda -y sra-tools trim-galore hisat2 samtools stringtie deeptools igv \
+  && conda install -y pigz \
+  && conda clean --all --yes
+
