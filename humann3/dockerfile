@@ -1,0 +1,11 @@
+# Base image
+FROM debian9-slim-bioconda3:latest
+
+# Installing packages
+RUN conda update conda \
+  && pip3 install humann==3.6 --no-binary :all: \
+  && pip3 install numpy cython \
+  && pip3 install biom-format \
+  && pip3 install metaphlan \
+  && conda clean --all --yes
+
