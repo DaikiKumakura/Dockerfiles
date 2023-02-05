@@ -1,0 +1,9 @@
+# Base image
+FROM debian9-slim-bioconda3:latest
+
+# Installing packages
+RUN conda update conda \
+  && pip3 install kneaddata==0.10.0 --no-binary :all: \
+  && conda install -c bioconda -y fastqc \
+  && conda clean --all --yes
+
