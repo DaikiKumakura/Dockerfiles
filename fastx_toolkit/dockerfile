@@ -1,5 +1,5 @@
 # Base image
-FROM debian9-slim-bioconda3:latest
+FROM kumalpha/debian9-slim-bioconda3:latest
 
 # Installing packages
 RUN conda update conda \
