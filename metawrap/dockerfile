@@ -1,5 +1,3 @@
-
-
 FROM mambaorg/micromamba:0.25.1
 ARG VERSION=1.3
 # needs to be scikit-learn 1.1 beacause in 1.2 mixed types in dataframe names raises an error rather than a warning
