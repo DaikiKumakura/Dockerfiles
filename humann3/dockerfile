@@ -1,11 +1,14 @@
-# Base image
-FROM kumalpha/debian9-slim-bioconda3:latest
+FROM ubuntu:18.04
 
-# Installing packages
-RUN conda update conda \
-  && pip3 install humann==3.6 --no-binary :all: \
-  && pip3 install numpy cython \
-  && pip3 install biom-format \
-  && pip3 install metaphlan \
-  && conda clean --all --yes
+# also install python version 2 used by bowtie2
+RUN apt-get update && \
+    DEBIAN_FRONTEND="noninteractive" apt-get install -y python python-dev python3 python3-dev python3-pip apt-transport-https openjdk-8-jre wget zip zlib1g-dev libbz2-dev liblzma-dev libjpeg-dev
+RUN pip3 install boto3 cloudpickle awscli
 
+RUN pip3 install anadama2
+
+# install kneaddata and dependencies
+RUN pip3 install humann==3.6 --no-binary :all:
+RUN pip3 install numpy cython
+RUN pip3 install biom-format
+RUN pip3 install metaphlan
