@@ -1,0 +1,7 @@
+# Base image
+FROM kumalpha/debian9-slim-bioconda3:latest
+
+# Installing packages
+RUN conda update conda \
+  && conda install -c gbouras13 -c bioconda -y pharokka \
+  && conda clean --all --yes
