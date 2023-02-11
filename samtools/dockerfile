@@ -1,0 +1,7 @@
+# Base image
+FROM kumalpha/debian9-slim-bioconda3:latest
+
+# Installing packages
+RUN conda update conda \
+  && conda install -c bioconda -y samtools==1.12 \
+  && conda clean --all --yes
