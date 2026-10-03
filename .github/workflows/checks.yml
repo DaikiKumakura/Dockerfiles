@@ -1,0 +1,28 @@
+name: Representative container checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  containers:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        tool: [seqkit, MAFFT]
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t tool-check -f ./${{ matrix.tool }}/dockerfile ./${{ matrix.tool }}
+      - name: Execute a small FASTA check
+        env:
+          TOOL: ${{ matrix.tool }}
+        run: |
+          printf '>a\nACGTACGT\n>b\nACGTACGA\n' > sample.fa
+          if [ "$TOOL" = seqkit ]; then
+            docker run --rm -v "$PWD:/data:ro" tool-check seqkit stats -T /data/sample.fa | tee output.txt
+            grep -q 'num_seqs' output.txt
+          else
+            docker run --rm -v "$PWD:/data:ro" tool-check mafft --auto /data/sample.fa > output.txt
+            test "$(grep -c '^>' output.txt)" -eq 2
+          fi
