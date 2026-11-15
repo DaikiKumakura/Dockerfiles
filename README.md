@@ -1,31 +1,63 @@
 # Dockerfiles
-Dockerfiles for docker hub.
 
-## How to build & upload Dockerfiles
-1. build the dockerfile on local.  
-```
-docker build -t NAME .
-```
-2. regster the tag of image.  
-```
-docker tag <IMEGE ID> kumalpha/<NAME>:latest
-```
-3. push the tag.
-```
-docker push kumalpha/<NAME>:latest
-```
-4. confirm the images on cloud.  
+**Container definitions for bioinformatics tools: genome assembly and
+annotation, read processing, alignment, RNA-seq and metagenomics.**
 
-## Tools
-I make several tools on Docker. If you need to other tools, please contact me (https://daikikumakura.github.io/).  
+Each folder holds one `dockerfile` for one tool or environment. Images built
+from them are published on Docker Hub as `kumalpha/<name>`.
 
-## Maintained representative environments
+> [!IMPORTANT]
+> Only `seqkit` and `MAFFT` are maintained and checked. The other definitions
+> are historical: most build on Debian 9, which is no longer supported, and
+> they have not been rebuilt or validated recently. Check outputs and
+> compatibility before using them in an analysis.
 
-| Directory | Base | Tool version | Maintenance scope |
-| --- | --- | --- | --- |
-| seqkit | Ubuntu 24.04 | Ubuntu package 2.3.1+ds-2ubuntu0.3 | Representative FASTA statistics check |
-| MAFFT | Ubuntu 24.04 | Ubuntu package 7.505-1 | Representative two-sequence alignment check |
+## Maintained environments
 
-The GitHub Actions job builds both Dockerfiles and executes tiny FASTA inputs. It does not publish images to Docker Hub. Read the Actions result before treating a commit as build-verified. The Ubuntu base tag is not digest-pinned; builds are not claimed to be bit-identical.
+| Folder | Base | Tool version | Check |
+|---|---|---|---|
+| [`seqkit`](seqkit/) | Ubuntu 24.04 | Ubuntu package 2.3.1+ds-2ubuntu0.3 | `seqkit stats` on a small FASTA |
+| [`MAFFT`](MAFFT/) | Ubuntu 24.04 | Ubuntu package 7.505-1 | two-sequence alignment |
 
-Other directories remain historical definitions, including the older metagenomic environments. They have not been rebuilt or validated by this maintenance pass. Keeping them does not imply current support. Do not replace their environments in a scientific analysis without checking outputs and compatibility.
+GitHub Actions builds both on every push and runs the check; it does not
+publish images. The Ubuntu base tag is not pinned to a digest, so builds are
+not claimed to be bit-identical.
+
+```bash
+docker build -t seqkit seqkit/
+docker run --rm -v "$PWD:/data:ro" seqkit seqkit stats -T /data/sample.fa
+```
+
+## Historical definitions
+
+Not maintained or validated; listed so they can be found.
+
+| Area | Folders |
+|---|---|
+| Base image | `debian9-slim-bioconda3` (Debian 9 with Bioconda; the base of most folders below) |
+| Assembly | `SPAdes`, `MEGAHIT`, `MetaPlatanus`, `Flye`, `canu`, `unicycler` |
+| Annotation | `Prokka`, `Bakta`, `DFAST`, `Prodigal`, `ARAGORN`, `tRNAscan-SE`, `pharokka`, `gapseq` |
+| Plasmids and viruses | `MOB-suite`, `RFPlasmid`, `VIBRANT`, `VirSorter2`, `genomad` |
+| Reads: QC and trimming | `fastp`, `cutadapt`, `trim-galore`, `trimmomatic`, `prinseq`, `fastx_toolkit`, `bbtools`, `kneaddata` |
+| Alignment and variants | `bowtie2`, `bwa`, `bwa-mem2`, `minimap2`, `hisat2`, `star`, `samtools`, `bcftools`, `Pandora`, `deeptools`, `igv` |
+| RNA-seq | `salmon`, `kallisto`, `RNA-seq-pipeline-IZUMO` |
+| Metagenomics | `humann3`, `metawrap`, `metawrap-1.1`, `kaiju`, `qiime2-core` |
+| Sequences and data | `seqtk`, `any2fasta`, `sra-tools`, `grabseqs`, `ncbi_genome_download` |
+
+## Build and publish
+
+```bash
+docker build -t NAME FOLDER/
+docker tag NAME kumalpha/NAME:latest
+docker push kumalpha/NAME:latest
+```
+
+## Related
+
+- [ShotgunMetagenomics](https://github.com/DaikiKumakura/ShotgunMetagenomics)
+  is a Japanese tutorial that uses images built from `kneaddata`, `bbtools`
+  and `humann3`.
+
+## License
+
+MIT
