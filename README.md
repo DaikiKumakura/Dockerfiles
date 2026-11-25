@@ -67,6 +67,10 @@ docker push kumalpha/NAME:latest
   is a Japanese tutorial that uses images built from `kneaddata`, `bbtools`
   and `humann3`.
 
+## Citation
+
+Kumakura, D. *Dockerfiles* [Software]. [GitHub repository](https://github.com/DaikiKumakura/Dockerfiles).
+
 ## License
 
 This project is licensed under MIT. See [LICENSE](LICENSE) for the license terms.
