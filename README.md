@@ -14,6 +14,9 @@ from them are published on Docker Hub as `kumalpha/<name>`.
 
 ## Maintained environments
 
+The quick start below uses the maintained seqkit image. Run it from the
+repository root with Docker and a `sample.fa` file in the current directory.
+
 | Folder | Base | Tool version | Check |
 |---|---|---|---|
 | [`seqkit`](seqkit/) | Ubuntu 24.04 | Ubuntu package 2.3.1+ds-2ubuntu0.3 | `seqkit stats` on a small FASTA |
@@ -22,6 +25,8 @@ from them are published on Docker Hub as `kumalpha/<name>`.
 GitHub Actions builds both on every push and runs the check; it does not
 publish images. The Ubuntu base tag is not pinned to a digest, so builds are
 not claimed to be bit-identical.
+
+## Quick start
 
 ```bash
 docker build -t seqkit seqkit/
